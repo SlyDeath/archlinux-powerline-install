@@ -44,16 +44,47 @@ fi\n''')
         bashrc.close()
 
 if choice == '3' or choice == '4':
-    print('##########################################################################')
-    print('# Скомпилировать VIM с поддержкой python 3.3? (необходимо для powerline) #')
-    print('##########################################################################')
-    vim = input('Y/n: ')
-    if vim != 'n':
-        os.system('wget ftp://ftp.vim.org/pub/vim/unix/vim-7.4.tar.bz2')
-        os.system('tar xvjf vim-7.4.tar.bz2')
-        os.system('cd vim74/ && ./configure --enable-python3interp --enable-rubyinterp --enable-gui=no --without-x --enable-cscope --enable-multibyte --prefix=/usr')
-        os.system('cd vim74/ && make && /usr/bin/sudo make install')
-        os.system('rm vim-7.4.tar.bz2 && rm -R vim74/')
+    print('##########################################')
+    print('# Установка в GVIM или компиляция клона? #')
+    print('#         1 - gvim                       #')
+    print('#         2 - скомпилировать клон        #')
+    print('##########################################')
+    vimchoice = input('1/2: ')
+
+    if vimchoice == '1':
+        checkgvim = os.system('pacman -Q gvim')
+        if checkgvim != 0:
+            print('###########################################')
+            print('# Установить GVIM или компилировать клон? #')
+            print('#         1 - установить gvim             #')
+            print('#         2 - скомпилировать клон         #')
+            print('###########################################')
+            vimchoice = input('1/2: ')
+
+            if vimchoice == '1':
+                os.system('/usr/bin/sudo pacman -S gvim')
+
+    if vimchoice == '2':
+        print('################################################################################')
+        print('# Скомпилировать VIM с поддержкой python 3.3? (необходимо для powerline)       #')
+        print('# Чтобы не было конфликтов с официальным VIM будет создана программа-клон      #')
+        print('# Для использования VIM с поддержкой python3.3 будет назначена команда "vimpy" #')
+        print('################################################################################')
+        vim = input('Y/n: ')
+        if vim != 'n':
+            os.system('wget ftp://ftp.vim.org/pub/vim/unix/vim-7.4.tar.bz2')
+            os.system('tar xvjf vim-7.4.tar.bz2')
+            os.system('cd vim74/ && ./configure --enable-python3interp --enable-rubyinterp --enable-gui=no --without-x --enable-cscope --enable-multibyte --prefix=/usr')
+            os.system('cd vim74/ && make')
+            os.system('/usr/bin/sudo mkdir /usr/local/bin/vimpy')
+            os.system('/usr/bin/sudo cp -R vim74/src/* /usr/local/bin/vimpy')
+            os.system('rm vim-7.4.tar.bz2 && rm -R vim74/')
+            with open(home + '/.zshenv', 'a') as zshenv:
+                zshenv.write('\nalias vimpy="/usr/local/bin/vimpy/vim"\n')
+                zshenv.close()
+            with open(home + '/.bashrc', 'a') as bashrc:
+                bashrc.write('\nalias vimpy="/usr/local/bin/vimpy/vim"\n')
+                bashrc.close()
 
     with open(home + '/.vimrc', 'a') as vimrc:
         vimrc.write('''\nset rtp+=/usr/lib/python3.3/site-packages/powerline/bindings/vim/
