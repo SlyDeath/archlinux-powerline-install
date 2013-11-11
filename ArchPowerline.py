@@ -10,7 +10,7 @@ print('##############################################')
 install = input('Y/n: ')
 
 if install != 'n':
-    os.system('pacman -S python-pip git wget')
+    os.system('/usr/bin/sudo pacman -S python-pip git wget')
     os.system('pip install git+git://github.com/Lokaltog/powerline')
     os.system('wget https://github.com/Lokaltog/powerline/raw/develop/font/PowerlineSymbols.otf')
     os.system('wget https://github.com/Lokaltog/powerline/raw/develop/font/10-powerline-symbols.conf')
