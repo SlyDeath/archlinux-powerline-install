@@ -17,6 +17,7 @@ if install != 'n':
     os.system('mv PowerlineSymbols.otf /usr/share/fonts/')
     os.system('fc-cache -vf')
     os.system('mv 10-powerline-symbols.conf /etc/fonts/conf.d/')
+    os.system('/usr/bin/sudo cp -R /usr/lib/python3.3/site-packages/powerline /usr/lib/python3.4/site-packages')
 
 print('#####################################')
 print('# Куда добавить поддержу powerline? #')
@@ -31,15 +32,15 @@ home = os.getenv('HOME')
 
 if choice == '1' or choice == '4':
     with open(home + '/.zshrc', 'a') as zshrc:
-        zshrc.write('''\nif [[ -r /usr/lib/python3.3/site-packages/powerline/bindings/zsh/powerline.zsh ]]; then
-    source /usr/lib/python3.3/site-packages/powerline/bindings/zsh/powerline.zsh
+        zshrc.write('''\nif [[ -r /usr/lib/python3.4/site-packages/powerline/bindings/zsh/powerline.zsh ]]; then
+    source /usr/lib/python3.4/site-packages/powerline/bindings/zsh/powerline.zsh
 fi\n''')
         zshrc.close()
 
 if choice == '2' or choice == '4':
     with open(home + '/.bashrc', 'a') as bashrc:
-        bashrc.write('''\nif [[ -r /usr/lib/python3.3/site-packages/powerline/bindings/bash/powerline.sh ]]; then
-    source /usr/lib/python3.3/site-packages/powerline/bindings/bash/powerline.sh
+        bashrc.write('''\nif [[ -r /usr/lib/python3.4/site-packages/powerline/bindings/bash/powerline.sh ]]; then
+    source /usr/lib/python3.4/site-packages/powerline/bindings/bash/powerline.sh
 fi\n''')
         bashrc.close()
 
@@ -66,9 +67,9 @@ if choice == '3' or choice == '4':
 
     if vimchoice == '2':
         print('################################################################################')
-        print('# Скомпилировать VIM с поддержкой python 3.3? (необходимо для powerline)       #')
+        print('# Скомпилировать VIM с поддержкой python 3.4? (необходимо для powerline)       #')
         print('# Чтобы не было конфликтов с официальным VIM будет создана программа-клон      #')
-        print('# Для использования VIM с поддержкой python3.3 будет назначена команда "vimpy" #')
+        print('# Для использования VIM с поддержкой python3.4 будет назначена команда "vimpy" #')
         print('################################################################################')
         vim = input('Y/n: ')
         if vim != 'n':
@@ -87,7 +88,7 @@ if choice == '3' or choice == '4':
                 bashrc.close()
 
     with open(home + '/.vimrc', 'a') as vimrc:
-        vimrc.write('''\nset rtp+=/usr/lib/python3.3/site-packages/powerline/bindings/vim/
+        vimrc.write('''\nset rtp+=/usr/lib/python3.4/site-packages/powerline/bindings/vim/
 set laststatus=2
 " Использовать 256 цветов (Только если ваш терминал поддерживает 256 цветов)
 set t_Co=256\n''')
